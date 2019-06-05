@@ -1,0 +1,14 @@
+doc/
+private/
+
+/build/
+/data/nvram
+/data/rom/decoder.*
+/data/rom/robotron.sb?
+/data/rom/robotron.snd
+
+/hw/**/gerber/
+/hw/**/*.bak
+/hw/**/*-bak
+/hw/**/*-cache.lib
+/hw/**/fp-info-cache

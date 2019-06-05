@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name analog_devices)(type Legacy)(uri ${KISBLIB}/analog_devices.lib)(options "")(descr ""))
+)

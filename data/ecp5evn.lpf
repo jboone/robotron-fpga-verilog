@@ -1,0 +1,299 @@
+# Copyright 2019 Jared Boone <jared@sharebrained.com>. Open-source license to be determined.
+
+# Timing
+
+# 12MHz oscillator connected to FTDI FT2232H USB interface IC.
+# VCCIO0 (3.3V default)
+# I suspect the tapping of OSCO is an off-label use and may make oscillator unreliable.
+# I have seen circumstances where detaching a USB host causes designs relying on this
+# oscillator to freeze (only sometimes!), and resume once the USB host is re-attached.
+
+LOCATE COMP "clk_osc_12m" SITE "A10";
+
+IOBUF PORT  "clk_osc_12m" IO_TYPE=LVCMOS33;
+
+# 200MHz Microchip DSC1123AE2-200.0000 LVDS differential output oscillator
+
+LOCATE COMP "clk_osc_200m_p" SITE "Y19";
+#LOCATE COMP "clk_osc_200m_n" SITE "W20";
+
+IOBUF PORT  "clk_osc_200m_p" IO_TYPE=LVDS;
+#IOBUF PORT  "clk_osc_200m_n" IO_TYPE=LVDS;
+
+# X5 footprint (unpopulated).
+# VCCIO0 (3.3V default)
+
+LOCATE COMP "clk_osc_x5"    SITE "B11";
+LOCATE COMP "clk_osc_x5_en" SITE "C11";
+
+IOBUF PORT  "clk_osc_x5"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "clk_osc_x5_en" IO_TYPE=LVCMOS33;
+
+# Video DAC
+
+LOCATE COMP "dac_r[0]"    SITE "N2";
+LOCATE COMP "dac_r[1]"    SITE "M1";
+LOCATE COMP "dac_r[2]"    SITE "L3";
+LOCATE COMP "dac_r[3]"    SITE "M5";
+LOCATE COMP "dac_r[4]"    SITE "K5";
+LOCATE COMP "dac_r[5]"    SITE "M3";
+LOCATE COMP "dac_r[6]"    SITE "N3";
+LOCATE COMP "dac_r[7]"    SITE "P5";
+LOCATE COMP "dac_r[8]"    SITE "N4";
+LOCATE COMP "dac_r[9]"    SITE "N5";
+
+LOCATE COMP "dac_g[0]"    SITE "M4";
+LOCATE COMP "dac_g[1]"    SITE "L5";
+LOCATE COMP "dac_g[2]"    SITE "L4";
+LOCATE COMP "dac_g[3]"    SITE "K3";
+LOCATE COMP "dac_g[4]"    SITE "J3";
+LOCATE COMP "dac_g[5]"    SITE "J5";
+LOCATE COMP "dac_g[6]"    SITE "J4";
+LOCATE COMP "dac_g[7]"    SITE "G1";
+LOCATE COMP "dac_g[8]"    SITE "H2";
+LOCATE COMP "dac_g[9]"    SITE "F1";
+
+LOCATE COMP "dac_b[0]"    SITE "E11";
+LOCATE COMP "dac_b[1]"    SITE "D11";
+LOCATE COMP "dac_b[2]"    SITE "C12";
+LOCATE COMP "dac_b[3]"    SITE "B12";
+LOCATE COMP "dac_b[4]"    SITE "E12";
+LOCATE COMP "dac_b[5]"    SITE "D12";
+LOCATE COMP "dac_b[6]"    SITE "D13";
+LOCATE COMP "dac_b[7]"    SITE "C13";
+LOCATE COMP "dac_b[8]"    SITE "A14";
+LOCATE COMP "dac_b[9]"    SITE "E13";
+
+LOCATE COMP "dac_clock"   SITE "B10";
+LOCATE COMP "dac_blank_n" SITE "B20";
+LOCATE COMP "dac_sync_n"  SITE "B13";
+LOCATE COMP "dac_psave_n" SITE "L2";
+
+IOBUF PORT  "dac_r[0]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_r[1]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_r[2]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_r[3]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_r[4]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_r[5]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_r[6]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_r[7]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_r[8]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_r[9]"    IO_TYPE=LVCMOS33;
+
+IOBUF PORT  "dac_g[0]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_g[1]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_g[2]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_g[3]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_g[4]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_g[5]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_g[6]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_g[7]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_g[8]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_g[9]"    IO_TYPE=LVCMOS33;
+
+IOBUF PORT  "dac_b[0]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_b[1]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_b[2]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_b[3]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_b[4]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_b[5]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_b[6]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_b[7]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_b[8]"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_b[9]"    IO_TYPE=LVCMOS33;
+
+IOBUF PORT  "dac_clock"   IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_blank_n" IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_sync_n"  IO_TYPE=LVCMOS33;
+IOBUF PORT  "dac_psave_n" IO_TYPE=LVCMOS33;
+
+# Video Encoder
+
+LOCATE COMP "enc_hsync"   SITE "A19";
+LOCATE COMP "enc_vsync"   SITE "A11";
+LOCATE COMP "enc_4fsc"    SITE "E7";
+
+LOCATE COMP "enc_sa"      SITE "C14";
+LOCATE COMP "enc_tvdet"   SITE "A9";
+LOCATE COMP "enc_term"    SITE "L1";
+LOCATE COMP "enc_ce"      SITE "N1";
+LOCATE COMP "enc_stnd"    SITE "P1";
+
+IOBUF PORT  "enc_hsync"   IO_TYPE=LVCMOS33;
+IOBUF PORT  "enc_vsync"   IO_TYPE=LVCMOS33;
+IOBUF PORT  "enc_4fsc"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "enc_sa"      IO_TYPE=LVCMOS33;
+IOBUF PORT  "enc_tvdet"   IO_TYPE=LVCMOS33;
+IOBUF PORT  "enc_term"    IO_TYPE=LVCMOS33;
+IOBUF PORT  "enc_ce"      IO_TYPE=LVCMOS33;
+IOBUF PORT  "enc_stnd"    IO_TYPE=LVCMOS33;
+
+# VGA Connector
+
+LOCATE COMP "vga_hsync"   SITE "D14";
+LOCATE COMP "vga_vsync"   SITE "K4";
+
+IOBUF PORT  "vga_hsync"   IO_TYPE=LVCMOS33;
+IOBUF PORT  "vga_vsync"   IO_TYPE=LVCMOS33;
+
+#
+# Evaluation board fixed-function signals
+#
+
+# Button(s)
+# Pulled up to VCCIO6 (3.3V default).
+
+LOCATE COMP "button[1]" SITE "P4";
+
+IOBUF PORT  "button[1]" IO_TYPE=LVCMOS33;
+
+# LEDs
+# Pulled up to VCCIO1 (2.5V default).
+# Ground to light.
+
+LOCATE COMP "led_n[0]" SITE "A13";
+LOCATE COMP "led_n[1]" SITE "A12";
+LOCATE COMP "led_n[2]" SITE "B19";
+LOCATE COMP "led_n[3]" SITE "A18";
+LOCATE COMP "led_n[4]" SITE "B18";
+LOCATE COMP "led_n[5]" SITE "C17";
+LOCATE COMP "led_n[6]" SITE "A17";
+LOCATE COMP "led_n[7]" SITE "B17";
+
+IOBUF PORT "led_n[0]" IO_TYPE=LVCMOS25;
+IOBUF PORT "led_n[1]" IO_TYPE=LVCMOS25;
+IOBUF PORT "led_n[2]" IO_TYPE=LVCMOS25;
+IOBUF PORT "led_n[3]" IO_TYPE=LVCMOS25;
+IOBUF PORT "led_n[4]" IO_TYPE=LVCMOS25;
+IOBUF PORT "led_n[5]" IO_TYPE=LVCMOS25;
+IOBUF PORT "led_n[6]" IO_TYPE=LVCMOS25;
+IOBUF PORT "led_n[7]" IO_TYPE=LVCMOS25;
+
+# DIP Switches
+# Pulled up to VCCIO1 (2.5V default) or VCCIO6 (3.3V default).
+# Grounded when closed.
+
+LOCATE COMP "dip_n[1]" SITE "J1";
+LOCATE COMP "dip_n[2]" SITE "H1";
+LOCATE COMP "dip_n[3]" SITE "K1";
+LOCATE COMP "dip_n[4]" SITE "E15";
+LOCATE COMP "dip_n[5]" SITE "D16";
+LOCATE COMP "dip_n[6]" SITE "B16";
+LOCATE COMP "dip_n[7]" SITE "C16";
+LOCATE COMP "dip_n[8]" SITE "A16";
+
+IOBUF PORT "dip_n[1]" IO_TYPE=LVCMOS33;
+IOBUF PORT "dip_n[2]" IO_TYPE=LVCMOS33;
+IOBUF PORT "dip_n[3]" IO_TYPE=LVCMOS33;
+
+IOBUF PORT "dip_n[4]" IO_TYPE=LVCMOS25;
+IOBUF PORT "dip_n[5]" IO_TYPE=LVCMOS25;
+IOBUF PORT "dip_n[6]" IO_TYPE=LVCMOS25;
+IOBUF PORT "dip_n[7]" IO_TYPE=LVCMOS25;
+IOBUF PORT "dip_n[8]" IO_TYPE=LVCMOS25;
+
+# PMOD header
+# VCCIO0 (3.3V default).
+
+LOCATE COMP "pmod[1]"  SITE "C6";
+LOCATE COMP "pmod[2]"  SITE "C7";
+LOCATE COMP "pmod[3]"  SITE "E8";
+LOCATE COMP "pmod[4]"  SITE "D8";
+LOCATE COMP "pmod[7]"  SITE "C8";
+LOCATE COMP "pmod[8]"  SITE "B8";
+LOCATE COMP "pmod[9]"  SITE "A7";
+LOCATE COMP "pmod[10]" SITE "A8";
+
+IOBUF PORT  "pmod[1]"  IO_TYPE=LVCMOS33;
+IOBUF PORT  "pmod[2]"  IO_TYPE=LVCMOS33;
+IOBUF PORT  "pmod[3]"  IO_TYPE=LVCMOS33;
+IOBUF PORT  "pmod[4]"  IO_TYPE=LVCMOS33;
+IOBUF PORT  "pmod[7]"  IO_TYPE=LVCMOS33;
+IOBUF PORT  "pmod[8]"  IO_TYPE=LVCMOS33;
+IOBUF PORT  "pmod[9]"  IO_TYPE=LVCMOS33;
+IOBUF PORT  "pmod[10]" IO_TYPE=LVCMOS33;
+
+# GPIO J8
+# VCCIO3 (3.3V default).
+
+LOCATE COMP "l19" SITE "L19";
+LOCATE COMP "m19" SITE "M19";
+LOCATE COMP "l20" SITE "L20";
+LOCATE COMP "m20" SITE "M20";
+LOCATE COMP "l16" SITE "L16";
+
+IOBUF PORT  "l19" IO_TYPE=LVCMOS33;
+IOBUF PORT  "m19" IO_TYPE=LVCMOS33;
+IOBUF PORT  "l20" IO_TYPE=LVCMOS33;
+IOBUF PORT  "m20" IO_TYPE=LVCMOS33;
+IOBUF PORT  "l16" IO_TYPE=LVCMOS33;
+
+# Raspberry Pi connector
+# VCCIO3 (3.3V default).
+
+LOCATE COMP "rasp_io[2]"  SITE "T17";
+LOCATE COMP "rasp_io[3]"  SITE "U16";
+LOCATE COMP "rasp_io[4]"  SITE "U17";
+LOCATE COMP "rasp_io[5]"  SITE "U18";
+LOCATE COMP "rasp_io[6]"  SITE "T18";
+LOCATE COMP "rasp_io[7]"  SITE "R18";
+LOCATE COMP "rasp_io[8]"  SITE "U19";
+LOCATE COMP "rasp_io[9]"  SITE "T19";
+LOCATE COMP "rasp_io[10]" SITE "U20";
+LOCATE COMP "rasp_io[11]" SITE "R20";
+LOCATE COMP "rasp_io[12]" SITE "T20";
+LOCATE COMP "rasp_io[13]" SITE "P20";
+LOCATE COMP "rasp_io[14]" SITE "P18";
+LOCATE COMP "rasp_io[15]" SITE "N20";
+LOCATE COMP "rasp_io[16]" SITE "P19";
+LOCATE COMP "rasp_io[17]" SITE "N19";
+LOCATE COMP "rasp_io[18]" SITE "T16";
+LOCATE COMP "rasp_io[19]" SITE "R17";
+LOCATE COMP "rasp_io[20]" SITE "P16";
+LOCATE COMP "rasp_io[21]" SITE "R16";
+LOCATE COMP "rasp_io[22]" SITE "N17";
+LOCATE COMP "rasp_io[23]" SITE "P17";
+LOCATE COMP "rasp_io[24]" SITE "M17";
+LOCATE COMP "rasp_io[25]" SITE "N18";
+LOCATE COMP "rasp_io[26]" SITE "N16";
+LOCATE COMP "rasp_io[27]" SITE "M18";
+LOCATE COMP "rasp_id_sc"  SITE "L17";
+LOCATE COMP "rasp_id_sd"  SITE "L18";
+
+IOBUF PORT  "rasp_io[2]"  IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[3]"  IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[4]"  IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[5]"  IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[6]"  IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[7]"  IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[8]"  IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[9]"  IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[10]" IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[11]" IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[12]" IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[13]" IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[14]" IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[15]" IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[16]" IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[17]" IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[18]" IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[19]" IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[20]" IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[21]" IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[22]" IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[23]" IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[24]" IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[25]" IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[26]" IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_io[27]" IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_id_sc"  IO_TYPE=LVCMOS33;
+IOBUF PORT  "rasp_id_sd"  IO_TYPE=LVCMOS33;
+
+# I2C (connected to FTDI FT2232H by default)
+# VCCIO0 (3.3V default).
+
+LOCATE COMP "scl0" SITE "D7";
+LOCATE COMP "sda0" SITE "E6";
+
+IOBUF PORT "scl0" IO_TYPE=LVCMOS33;
+IOBUF PORT "sda0" IO_TYPE=LVCMOS33;

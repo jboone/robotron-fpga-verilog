@@ -81,10 +81,10 @@ module williams_sc1 #(
 		if(rst) begin
 			reg_ctrl <= 8'b00000000;
 			reg_solid <= 8'b00000000;
-			reg_src_base <= 16'h0000;
-			reg_dst_base <= 16'h0000;
-			reg_width <= 8'h00;
-			reg_height <= 8'h00;
+			reg_src_base <= 0;
+			reg_dst_base <= 0;
+			reg_width <= 0;
+			reg_height <= 0;
 		end else
 			if(en_e_n)
 				if(reg_cs)
@@ -115,10 +115,10 @@ module williams_sc1 #(
 			state <= ST_IDLE;
 			blt_src_data <= 8'h00;
 			blt_shift <= 4'b0000;
-			src_address <= 16'h0000;
-			dst_address <= 16'h0000;
-			x_count <= 8'h00;
-			y_count <= 8'h00;
+			src_address <= 0;
+			dst_address <= 0;
+			x_count <= 0;
+			y_count <= 0;
 		end else
 			if(en_e_n)
 				case(state)

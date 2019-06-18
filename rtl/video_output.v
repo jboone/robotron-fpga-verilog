@@ -5,13 +5,13 @@
 `timescale 1ns / 100ps
 
 module video_output(
-	input        rst,
-	input        clk,
-	input        screen_control,
-	input [23:0] data_in,
-	input        data_in_en,
-	output [3:0] data_out,
-	input        data_out_en
+	input  wire        rst,
+	input  wire        clk,
+	input  wire        screen_control,
+	input  wire [23:0] data_in,
+	input  wire        data_in_en,
+	output wire [ 3:0] data_out,
+	input  wire        data_out_en
 );
 
 reg [3:0] shifter_sc0_5;

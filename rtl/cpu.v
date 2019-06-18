@@ -5,37 +5,56 @@
 `timescale 1ns / 100ps
 
 module cpu(
-	input        rst,
-	input        clk_12m,
-	output [2:0] red,
-	output [2:0] green,
-	output [1:0] blue,
-	output       pixel_clk,
-	output       blank,
-	output       horiz_sync,
-	output       vert_sync,
-	
-	input [ 1:0] widget_move_up,
-	input [ 1:0] widget_move_down,
-	input [ 1:0] widget_move_left,
-	input [ 1:0] widget_move_right,
-	input [ 1:0] widget_fire_up,
-	input [ 1:0] widget_fire_down,
-	input [ 1:0] widget_fire_left,
-	input [ 1:0] widget_fire_right,
-	input [ 1:0] widget_player_start,
+	input  wire        rst,
+	input  wire        clk_12m,
+	output wire        en_e_n,
 
-	input        coin_door_auto_up,
-	input        coin_door_advance,
-	input        coin_door_high_score_reset,
-	input        coin_door_left_coin,
-	input        coin_door_center_coin,
-	input        coin_door_right_coin,
-	input        coin_door_slam_tilt,
-	
-	input [15:0] rom_write_addr,
-	input [ 7:0] rom_write_data,
-	input        rom_write_en
+	output wire [ 2:0] red,
+	output wire [ 2:0] green,
+	output wire [ 1:0] blue,
+	output reg         pixel_clk,
+	output wire [13:0] video_addr,
+
+	input  wire [ 1:0] widget_move_up,
+	input  wire [ 1:0] widget_move_down,
+	input  wire [ 1:0] widget_move_left,
+	input  wire [ 1:0] widget_move_right,
+	input  wire [ 1:0] widget_fire_up,
+	input  wire [ 1:0] widget_fire_down,
+	input  wire [ 1:0] widget_fire_left,
+	input  wire [ 1:0] widget_fire_right,
+	input  wire [ 1:0] widget_player_start,
+
+	input  wire        coin_door_auto_up,
+	input  wire        coin_door_advance,
+	input  wire        coin_door_high_score_reset,
+	input  wire        coin_door_left_coin,
+	input  wire        coin_door_center_coin,
+	input  wire        coin_door_right_coin,
+	input  wire        coin_door_slam_tilt,
+
+	output wire [ 5:0] sound_pb,
+	output wire        sound_hand,
+
+	input  wire [15:0] rom_write_addr,
+	input  wire [ 7:0] rom_write_data,
+	input  wire        rom_write_en,
+
+	output reg         event_boot,
+	output reg         event_game_start,
+	output reg         event_player_death,
+	output reg         event_still_trying,
+	output reg         event_human_saved,
+	output reg         event_human_killed,
+	output reg         event_grunt_killed_by_electrode,
+	output reg         event_game_over,
+	output reg         event_score_change,
+	output reg  [31:0] score_p1,
+	output reg         event_enforcer_spark,
+	output reg         event_wave_change,
+	output reg  [ 7:0] wave_p1,
+	output reg         event_nvram_dump,
+	output reg  [23:0] initials
 );
 
 /////////////////////////////////////////////////
@@ -52,7 +71,6 @@ wire en_4m;
 wire en_q;
 wire en_e;
 wire en_q_n;
-wire en_e_n;
 wire [11:0] phase_e;
 
 clock_generator clock_generator(
@@ -76,9 +94,9 @@ always @(posedge clk_12m) begin
 		sync_e <= 1'b1;
 	end else begin
 		if(en_q || en_q_n)
-			sync_q <= en_q ? 1 : 0;
+			sync_q <= en_q ? 1'b1 : 1'b0;
 		if(en_e || en_e_n)
-			sync_e <= en_e ? 1 : 0;
+			sync_e <= en_e ? 1'b1 : 1'b0;
 	end
 end
 
@@ -95,10 +113,8 @@ always @(posedge clk_12m) begin
 		en_video_counter <= 1'b1;
 end
 
-wire [13:0] video_addr;
 wire [ 7:0] video_prom_addr;
 
-wire blank;
 wire irq_4ms;
 wire count_240;
 
@@ -109,9 +125,6 @@ video_counter video_counter(
 	.screen_control(screen_control),
 	.video_addr(video_addr),
 	.video_prom_addr(video_prom_addr),
-	.hsync(horiz_sync),
-	.vsync(vert_sync),
-	.blank(blank),
 	.count_240(count_240),
 	.irq_4ms(irq_4ms)
 );
@@ -188,6 +201,8 @@ wire [5:0] ram_write_nibble_en = {
 	(ram_lane_sel == 2'b00) && sc1_nibble_en[0] && (!r_w_n && en_e_n && ram_cs)
 };
 
+wire [7:0]  mpu_data_o;
+
 always @(posedge clk_12m) begin
 	if(rst) begin
 		e_rom <= 0;
@@ -224,6 +239,7 @@ ram_16k_24 ram(
 	.data_in(ram_data_in),
 	.data_out(ram_data_out)
 );
+
 /*
 reg [7:0] ram_data_out_mux;
 always @* begin
@@ -270,9 +286,8 @@ video_output video_output(
 	.data_out_en(video_shifter_shift)
 );
 
-reg pixel_clk;
 always @(posedge clk_12m) begin
-	pixel_clk <= video_shifter_shift && (video_addr[5:0] < 53) && (video_addr[13:6] < 240);
+	pixel_clk <= video_shifter_shift;
 end
 
 ///////////////////////////////////////////////////////////////////////
@@ -283,7 +298,6 @@ wire sc1_blt_wr;
 wire        mpu_e_i = clk_e;
 wire        mpu_q_i = clk_q;
 wire [7:0]  mpu_data_i;
-wire [7:0]  mpu_data_o;
 wire [15:0] mpu_addr_o;
 wire        irq_n;
 wire        halt_n;
@@ -293,6 +307,7 @@ wire        mpu_r_w_n;
 wire        mpu_ba_o;
 wire        mpu_bs_o;
 wire        mpu_busy_o;
+wire        mpu_new_opcode;
 wire [111:0] mpu_RegData;
 
 wire bs_ba = mpu_bs_o && mpu_ba_o;
@@ -317,14 +332,84 @@ mc6809i #(
     .nHALT(halt_n),
     .nRESET(!rst),
     .nDMABREQ(1'b1),
+    .new_opcode(mpu_new_opcode),
     .RegData(mpu_RegData)
 );
 
-// mc6809_small new_cpu(
-// 	.E(mpu_e_i),
-// 	.data_in(mpu_data_i),
-// 	.nRESET(!rst)
-// );
+///////////////////////////////////////////////////////////////////////
+// Watch for events, and save copies of interesting data
+
+wire [15:0] mpu_pc = mpu_RegData[111:96];
+
+always @(posedge clk_12m) begin
+	event_boot                      <= (mpu_pc == 16'hf000) && mpu_new_opcode && en_e_n;
+	event_game_start                <= (mpu_pc == 16'h276c) && mpu_new_opcode && en_e_n;
+	event_player_death              <= (mpu_pc == 16'h30fe) && mpu_new_opcode && en_e_n;
+	event_still_trying              <= (mpu_pc == 16'h3130) && mpu_new_opcode && en_e_n;
+	event_human_saved               <= (mpu_pc == 16'h036a) && mpu_new_opcode && en_e_n;
+	event_human_killed              <= (mpu_pc == 16'h03a2) && mpu_new_opcode && en_e_n;
+	event_grunt_killed_by_electrode <= (mpu_pc == 16'h3aa9) && mpu_new_opcode && en_e_n;
+	event_game_over                 <= (mpu_pc == 16'h3112) && mpu_new_opcode && en_e_n;
+	event_enforcer_spark            <= (mpu_pc == 16'h147e) && mpu_new_opcode && en_e_n;
+end
+
+always @(posedge clk_12m) begin
+	if(rst) begin
+		event_score_change <= 1'b0;
+		score_p1 <= 32'h0;
+	end else begin
+		// event_score_change <= (mpu_addr_o == 16'b1011_1101_1110_1xxx) && (!mpu_r_w_n) && ram_cs;
+
+		// Current player score was changed, is about to be redrawn.
+		event_score_change <= (mpu_pc == 16'hdc11) && mpu_new_opcode && en_e_n;
+
+		if(en_e_n && !mpu_r_w_n) begin
+			case(mpu_addr_o)
+			16'hbde4: score_p1[31:24] <= mpu_data_o;
+			16'hbde5: score_p1[23:16] <= mpu_data_o;
+			16'hbde6: score_p1[15: 8] <= mpu_data_o;
+			16'hbde7: score_p1[ 7: 0] <= mpu_data_o;
+			endcase
+		end
+	end
+end
+
+always @(posedge clk_12m) begin
+	if(rst) begin
+		event_wave_change <= 1'b0;
+		wave_p1 <= 8'd0;
+	end else begin
+		if((mpu_addr_o == 16'hbded) && (!mpu_r_w_n) && en_e_n) begin
+			event_wave_change <= 1'b1;
+			wave_p1 <= mpu_data_o;
+		end else begin
+			event_wave_change <= 1'b0;
+		end
+	end
+end
+
+always @(posedge clk_12m) begin
+	if(rst) begin
+		event_nvram_dump <= 1'b0;
+		initials <= 24'h000000;
+	end else begin
+		event_nvram_dump <= (mpu_pc == 16'he727) && mpu_new_opcode && en_e_n;
+
+		if(event_game_start) begin
+			// Clear initials at game start, so if no initials are entered, we get a predictable value.
+			initials <= 24'h000000;
+		end else begin
+			if(en_e_n && !mpu_r_w_n) begin
+				case(mpu_addr_o)
+				16'hb3ea: initials[23:16] <= mpu_data_o;
+				16'hb3eb: initials[15: 8] <= mpu_data_o;
+				16'hb3ec: initials[ 7: 0] <= mpu_data_o;
+				endcase
+			end
+		end
+	end
+end
+///////////////////////////////////////////////////////////////////////
 
 wire [7:0] rom_data_out;
 
@@ -372,7 +457,10 @@ williams_sc1 sc1(
 ///////////////////////////////////////////////////////////////////////
 // Palette RAM
 
+// SN7489 RAM used for palette memory inverts data on outputs.
+
 wire [3:0] palette_addr_rd = video_shifter_out;
+wire       palette_rd = video_shifter_shift;
 wire [3:0] palette_addr_wr = mpu_addr_o[3:0];
 wire       palette_ram_we = palette_ram_mpu_cs && !r_w_n && en_e_n;
 wire [7:0] palette_ram_data_in = mpu_data_o;
@@ -383,6 +471,7 @@ ram_palette ram_palette_1b_2b(
 	.we(palette_ram_we),
 	.addr_wr(palette_addr_wr),
 	.addr_rd(palette_addr_rd),
+	.en_rd(palette_rd),
 	.data_in(palette_ram_data_in),
 	.data_out(palette_ram_data_out)
 );
@@ -394,11 +483,7 @@ assign red   = palette_ram_data_out[2:0];
 ///////////////////////////////////////////////////////////////////////
 // ROM Board PIA
 
-wire [5:0] sound_pb;
-
 wire [7:0] pia_rom_pa_out;
-wire sound_hand = pia_rom_pa_out[7];
-
 wire [7:0] pia_rom_pa_in = {
 	coin_door_auto_up,
 	coin_door_advance,
@@ -453,6 +538,10 @@ pia_6821 pia_rom(
 	.cb2_o(pia_rom_cb2),
 	.cb2_oe(pia_rom_cb2_oe)
 );
+
+// Consider OE because outputs have pull-ups on them. If not OE, force to "1".
+assign sound_hand = pia_rom_pa_out[7]   | (~pia_rom_pa_oe[7]);
+assign sound_pb   = pia_rom_pb_out[5:0] | (~pia_rom_pb_oe[5:0]);
 
 wire [3:0] decoder_1f_a = { pia_rom_ca2, pia_rom_cb2, pia_rom_pb_out[7:6] };
 

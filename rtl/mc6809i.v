@@ -43,25 +43,25 @@ module mc6809i
     parameter ILLEGAL_INSTRUCTIONS="GHOST"
 ) 
 (
-
-    input   [7:0]  D,
-    output  [7:0]  DOut,
-    output  [15:0] ADDR,
-    output  RnW,
-    input   E,
-    input   Q,
-    output  BS,
-    output  BA,
-    input   nIRQ,
-    input   nFIRQ,
-    input   nNMI,
-    output  AVMA,
-    output  BUSY,
-    output  LIC,
-    input   nHALT,
-    input   nRESET,
-    input   nDMABREQ,
-    output  [111:0] RegData
+    input  wire [  7:0] D,
+    output wire [  7:0] DOut,
+    output wire [ 15:0] ADDR,
+    output wire         RnW,
+    input  wire         E,
+    input  wire         Q,
+    output wire         BS,
+    output wire         BA,
+    input  wire         nIRQ,
+    input  wire         nFIRQ,
+    input  wire         nNMI,
+    output wire         AVMA,
+    output wire         BUSY,
+    output wire         LIC,
+    input  wire         nHALT,
+    input  wire         nRESET,
+    input  wire         nDMABREQ,
+    output wire [111:0] RegData,
+    output reg          new_opcode
 );
 
 reg     [7:0]  DOutput;
@@ -622,6 +622,8 @@ begin
         addr <= addr_nxt;
         ea <= ea_nxt;
         
+        new_opcode <= (CpuState_nxt == CPUSTATE_FETCH_I1);
+
         InstPage2 <= InstPage2_nxt;
         InstPage3 <= InstPage3_nxt;
         Inst1 <= Inst1_nxt;

@@ -5,11 +5,11 @@
 `timescale 1ns / 100ps
 
 module ram_16k_24(
-	input         clk,
-	input  [13:0] addr,
-	input  [ 5:0] we,
-	input  [23:0] data_in,
-	output [23:0] data_out
+	input  wire        clk,
+	input  wire [13:0] addr,
+	input  wire [ 5:0] we,
+	input  wire [23:0] data_in,
+	output wire [23:0] data_out
 );
 
 wire wren = we[5] || we[4] || we[3] || we[2] || we[1] || we[0];

@@ -6,16 +6,20 @@ PROJ_RTL_SRCS := $(addprefix rtl/, \
 	address_decode_mpu.v \
 	clock_generator.v \
 	cpu.v \
+	events.v \
+	fifo_sync_ram.v \
 	mc6809i.v \
 	mux_74154.v \
 	pia_6821.v \
 	ram_16k_24.v \
 	ram_cmos.v \
 	ram_palette.v \
+	ram_sdp.v \
 	rom_64k_8.v \
 	rom_decoder_4.v \
 	rom_decoder_6.v \
 	top.v \
+	uart_tx.v \
 	video_counter.v \
 	video_output.v \
 	williams_sc1.v \

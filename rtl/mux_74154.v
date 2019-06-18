@@ -5,9 +5,9 @@
 `timescale 1ns / 100ps
 
 module mux_74154(
-	input  [ 3:0] a,
-	input  [ 1:0] g_n,
-	output [15:0] y_n
+	input  wire [ 3:0] a,
+	input  wire [ 1:0] g_n,
+	output wire [15:0] y_n
 );
 
 wire g0 = !g_n[0];

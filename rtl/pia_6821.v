@@ -6,37 +6,35 @@
 
 module pia_6821(
 	// Host interface
-	input        rst,
-	input        clk,
-	input        en_e_n,
-	input  [1:0] rs,
-	input        r_w_n,
-	input        cs,
-	input  [7:0] data_in,
-	output [7:0] data_out,
-	output       irq_a,
-	output       irq_b,
+	input  wire       rst,
+	input  wire       clk,
+	input  wire       en_e_n,
+	input  wire [1:0] rs,
+	input  wire       r_w_n,
+	input  wire       cs,
+	input  wire [7:0] data_in,
+	output reg  [7:0] data_out,
+	output wire       irq_a,
+	output wire       irq_b,
 
 	// Peripheral port A
-	input  [7:0] pa_i,
-	output [7:0] pa_o,
-	output [7:0] pa_oe,
-	input        ca1_i,
-	input        ca2_i,
-	output       ca2_o,
-	output       ca2_oe,
+	input  wire [7:0] pa_i,
+	output wire [7:0] pa_o,
+	output wire [7:0] pa_oe,
+	input  wire       ca1_i,
+	input  wire       ca2_i,
+	output wire       ca2_o,
+	output wire       ca2_oe,
 
 	// Peripheral port B
-	input  [7:0] pb_i,
-	output [7:0] pb_o,
-	output [7:0] pb_oe,
-	input        cb1_i,
-	input        cb2_i,
-	output       cb2_o,
-	output       cb2_oe
+	input  wire [7:0] pb_i,
+	output wire [7:0] pb_o,
+	output wire [7:0] pb_oe,
+	input  wire       cb1_i,
+	input  wire       cb2_i,
+	output wire       cb2_o,
+	output wire       cb2_oe
 );
-
-reg [7:0] data_out;
 
 reg [7:0] porta_ddr;
 reg [7:0] porta_data;
@@ -121,7 +119,7 @@ always @(posedge clk) begin
 		portb_ctrl <=   6'b00_0000;
 		portb_write <= 1'b0;
 	end else begin
-		if(cs && !r_w_n) begin
+		if(en_e_n && cs && !r_w_n) begin
 			case(rs)
 			2'b00: begin
 				if(porta_ctrl[2])

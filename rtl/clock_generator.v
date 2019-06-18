@@ -5,15 +5,15 @@
 `timescale 1ns / 100ps
 
 module clock_generator(
-	input rst,
-	input clk,
-	output reg en_6m,
-	output reg en_4m,
-	output reg en_q,
-	output reg en_e,
-	output reg en_q_n,
-	output reg en_e_n,
-	output [11:0] phase_e
+	input  wire        rst,
+	input  wire        clk,
+	output reg         en_6m,
+	output reg         en_4m,
+	output reg         en_q,
+	output reg         en_e,
+	output reg         en_q_n,
+	output reg         en_e_n,
+	output wire [11:0] phase_e
 );
 
 reg [11:0] phase;

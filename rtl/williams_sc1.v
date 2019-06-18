@@ -7,21 +7,21 @@
 module williams_sc1 #(
 	parameter IS_SC1 = 1
 )(
-	input         rst,
-	input         clk,
-	input         en_e_n,
-	input         reg_cs,
-	input  [ 7:0] reg_data_in,
-	input  [ 2:0] rs,
-	output        halt,
-	input         halt_ack,
-	input         blt_ack,
-	output        blt_rd,
-	output        blt_wr,
-	input  [ 7:0] blt_data_in,
-	output [ 7:0] blt_data_out,
-	output [15:0] blt_address_out,
-	output [ 1:0] blt_nibble_en
+	input  wire        rst,
+	input  wire        clk,
+	input  wire        en_e_n,
+	input  wire        reg_cs,
+	input  wire [ 7:0] reg_data_in,
+	input  wire [ 2:0] rs,
+	output wire        halt,
+	input  wire        halt_ack,
+	input  wire        blt_ack,
+	output wire        blt_rd,
+	output wire        blt_wr,
+	input  wire [ 7:0] blt_data_in,
+	output wire [ 7:0] blt_data_out,
+	output wire [15:0] blt_address_out,
+	output wire [ 1:0] blt_nibble_en
 );
 
 	localparam

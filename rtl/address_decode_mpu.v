@@ -5,23 +5,23 @@
 `timescale 1ns / 100ps
 
 module address_decode_mpu(
-	input clk,
-	input vma,
-	input e_rom,
-	input screen_control,
-	input [15:0] addr,
-	input r_w_n,
-	output [13:0] ram_addr,
-	output [1:0] ram_lane_sel,
-	output racnt,
-	output rom_cs,
-	output palette_ram_cs,
-	output pia_widget_cs,
-	output pia_rom_cs,
-	output reg_misc_cs,
-	output evie,
-	output video_count_cs,
-	output cmos_ram_cs
+	input  wire        clk,
+	input  wire        vma,
+	input  wire        e_rom,
+	input  wire        screen_control,
+	input  wire [15:0] addr,
+	input  wire        r_w_n,
+	output wire [13:0] ram_addr,
+	output wire [ 1:0] ram_lane_sel,
+	output wire        racnt,
+	output wire        rom_cs,
+	output wire        palette_ram_cs,
+	output wire        pia_widget_cs,
+	output wire        pia_rom_cs,
+	output wire        reg_misc_cs,
+	output wire        evie,
+	output wire        video_count_cs,
+	output wire        cmos_ram_cs
 );
 
 wire [5:0] pseudo_addr;

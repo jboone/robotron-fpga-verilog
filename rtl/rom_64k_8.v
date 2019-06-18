@@ -5,11 +5,11 @@
 `timescale 1ns / 100ps
 
 module rom_64k_8(
-	input         clock_i,
-	input  [15:0] address_i,
-	input         write_enable_i,
-	input  [ 7:0] data_i,
-	output [ 7:0] data_o
+	input  wire        clock_i,
+	input  wire [15:0] address_i,
+	input  wire        write_enable_i,
+	input  wire [ 7:0] data_i,
+	output wire [ 7:0] data_o
 );
 
 wire bank = address_i[15];

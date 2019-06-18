@@ -2,6 +2,9 @@
 
 # Timing
 
+BLOCK RESETPATHS ;
+BLOCK ASYNCPATHS ;
+
 # Evaluation board must be reconfigured to use 3.3V on VCCIO1.
 
 # 12MHz oscillator connected to FTDI FT2232H USB interface IC.

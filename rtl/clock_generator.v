@@ -20,7 +20,7 @@ reg [11:0] phase;
 
 always @(posedge clk) begin
 	if(rst) begin
-		phase <= 12'b0000_0000_1000;
+		phase <= 12'b000_000_001_000;
 	end else begin
 		phase <= { phase[10:0], phase[11] };
 		en_6m <= phase[1] || phase[3] || phase[5] || phase[7] || phase[9] || phase[11];

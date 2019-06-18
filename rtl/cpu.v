@@ -73,7 +73,7 @@ reg sync_e;
 always @(posedge clk_12m) begin
 	if(rst) begin
 		sync_q <= 1'b0;
-		sync_q <= 1'b0;
+		sync_e <= 1'b1;
 	end else begin
 		if(en_q || en_q_n)
 			sync_q <= en_q ? 1 : 0;

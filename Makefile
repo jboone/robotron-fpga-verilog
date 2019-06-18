@@ -39,7 +39,7 @@ build/rom.hex: sw/mkrom.py data/rom/robotron.sb?
 #######################################################################
 
 build/robotron.json: ${PROJ_RTL_SRCS} build/cmos.hex build/decoder_4.hex build/decoder_6.hex build/rom.hex
-	yosys -D ECP5 -p "synth_ecp5 -json $@" ${PROJ_RTL_SRCS}
+	yosys -D ECP5 -p "synth_ecp5 -top top -json $@" ${PROJ_RTL_SRCS}
 
 build/robotron_out.config: build/robotron.json data/pre-pack.py
 	nextpnr-ecp5 --json $< --textcfg $@ --um5g-85k --package CABGA381 --lpf data/ecp5evn.lpf --pre-pack data/pre-pack.py

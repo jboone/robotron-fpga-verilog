@@ -2,6 +2,8 @@
 
 # Timing
 
+# Evaluation board must be reconfigured to use 3.3V on VCCIO1.
+
 # 12MHz oscillator connected to FTDI FT2232H USB interface IC.
 # VCCIO0 (3.3V default)
 # I suspect the tapping of OSCO is an off-label use and may make oscillator unreliable.
@@ -160,37 +162,37 @@ LOCATE COMP "led_n[5]" SITE "C17";
 LOCATE COMP "led_n[6]" SITE "A17";
 LOCATE COMP "led_n[7]" SITE "B17";
 
-IOBUF PORT "led_n[0]" IO_TYPE=LVCMOS25;
-IOBUF PORT "led_n[1]" IO_TYPE=LVCMOS25;
-IOBUF PORT "led_n[2]" IO_TYPE=LVCMOS25;
-IOBUF PORT "led_n[3]" IO_TYPE=LVCMOS25;
-IOBUF PORT "led_n[4]" IO_TYPE=LVCMOS25;
-IOBUF PORT "led_n[5]" IO_TYPE=LVCMOS25;
-IOBUF PORT "led_n[6]" IO_TYPE=LVCMOS25;
-IOBUF PORT "led_n[7]" IO_TYPE=LVCMOS25;
+IOBUF PORT "led_n[0]" IO_TYPE=LVCMOS33;
+IOBUF PORT "led_n[1]" IO_TYPE=LVCMOS33;
+IOBUF PORT "led_n[2]" IO_TYPE=LVCMOS33;
+IOBUF PORT "led_n[3]" IO_TYPE=LVCMOS33;
+IOBUF PORT "led_n[4]" IO_TYPE=LVCMOS33;
+IOBUF PORT "led_n[5]" IO_TYPE=LVCMOS33;
+IOBUF PORT "led_n[6]" IO_TYPE=LVCMOS33;
+IOBUF PORT "led_n[7]" IO_TYPE=LVCMOS33;
 
 # DIP Switches
 # Pulled up to VCCIO1 (2.5V default) or VCCIO6 (3.3V default).
 # Grounded when closed.
 
-LOCATE COMP "dip_n[1]" SITE "J1";
-LOCATE COMP "dip_n[2]" SITE "H1";
-LOCATE COMP "dip_n[3]" SITE "K1";
-LOCATE COMP "dip_n[4]" SITE "E15";
-LOCATE COMP "dip_n[5]" SITE "D16";
-LOCATE COMP "dip_n[6]" SITE "B16";
-LOCATE COMP "dip_n[7]" SITE "C16";
-LOCATE COMP "dip_n[8]" SITE "A16";
+LOCATE COMP "dip_n[0]" SITE "J1";
+LOCATE COMP "dip_n[1]" SITE "H1";
+LOCATE COMP "dip_n[2]" SITE "K1";
+LOCATE COMP "dip_n[3]" SITE "E15";
+LOCATE COMP "dip_n[4]" SITE "D16";
+LOCATE COMP "dip_n[5]" SITE "B16";
+LOCATE COMP "dip_n[6]" SITE "C16";
+LOCATE COMP "dip_n[7]" SITE "A16";
 
+IOBUF PORT "dip_n[0]" IO_TYPE=LVCMOS33;
 IOBUF PORT "dip_n[1]" IO_TYPE=LVCMOS33;
 IOBUF PORT "dip_n[2]" IO_TYPE=LVCMOS33;
-IOBUF PORT "dip_n[3]" IO_TYPE=LVCMOS33;
 
-IOBUF PORT "dip_n[4]" IO_TYPE=LVCMOS25;
-IOBUF PORT "dip_n[5]" IO_TYPE=LVCMOS25;
-IOBUF PORT "dip_n[6]" IO_TYPE=LVCMOS25;
-IOBUF PORT "dip_n[7]" IO_TYPE=LVCMOS25;
-IOBUF PORT "dip_n[8]" IO_TYPE=LVCMOS25;
+IOBUF PORT "dip_n[3]" IO_TYPE=LVCMOS33;
+IOBUF PORT "dip_n[4]" IO_TYPE=LVCMOS33;
+IOBUF PORT "dip_n[5]" IO_TYPE=LVCMOS33;
+IOBUF PORT "dip_n[6]" IO_TYPE=LVCMOS33;
+IOBUF PORT "dip_n[7]" IO_TYPE=LVCMOS33;
 
 # PMOD header
 # VCCIO0 (3.3V default).

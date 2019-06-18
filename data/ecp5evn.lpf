@@ -302,3 +302,29 @@ IOBUF PORT  "events_tx" IO_TYPE=LVCMOS33;
 
 #IOBUF PORT "scl0" IO_TYPE=LVCMOS33;
 #IOBUF PORT "sda0" IO_TYPE=LVCMOS33;
+
+# J5 GPIO
+
+LOCATE COMP "move_up_n"    SITE "H20";	// Pin 3
+LOCATE COMP "move_right_n" SITE "K18";	// Pin 7
+LOCATE COMP "move_down_n"  SITE "K19";	// Pin 11
+LOCATE COMP "move_left_n"  SITE "K20";	// Pin 15
+
+LOCATE COMP "fire_up_n"    SITE "G19";	// Pin 4
+LOCATE COMP "fire_right_n" SITE "J18";	// Pin 8
+LOCATE COMP "fire_down_n"  SITE "J19";	// Pin 12
+LOCATE COMP "fire_left_n"  SITE "J20";	// Pin 16
+
+LOCATE COMP "player_start_1up_n" SITE "G20";	// Pin 19
+
+IOBUF PORT "move_up_n"    IO_TYPE=LVCMOS33 PULLMODE=UP;	// Pin 3
+IOBUF PORT "move_right_n" IO_TYPE=LVCMOS33 PULLMODE=UP;	// Pin 7
+IOBUF PORT "move_down_n"  IO_TYPE=LVCMOS33 PULLMODE=UP;	// Pin 11
+IOBUF PORT "move_left_n"  IO_TYPE=LVCMOS33 PULLMODE=UP;	// Pin 15
+
+IOBUF PORT "fire_up_n"    IO_TYPE=LVCMOS33 PULLMODE=UP;	// Pin 4
+IOBUF PORT "fire_right_n" IO_TYPE=LVCMOS33 PULLMODE=UP;	// Pin 8
+IOBUF PORT "fire_down_n"  IO_TYPE=LVCMOS33 PULLMODE=UP;	// Pin 12
+IOBUF PORT "fire_left_n"  IO_TYPE=LVCMOS33 PULLMODE=UP;	// Pin 16
+
+IOBUF PORT "player_start_1up_n" IO_TYPE=LVCMOS33 PULLMODE=UP;	// Pin 19

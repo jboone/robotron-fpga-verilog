@@ -15,7 +15,7 @@ BLOCK ASYNCPATHS ;
 
 LOCATE COMP "clk_osc_12m" SITE "A10";
 
-IOBUF PORT  "clk_osc_12m" IO_TYPE=LVCMOS33;
+IOBUF PORT  "clk_osc_12m" IO_TYPE=LVCMOS33 PULLMODE=NONE;
 
 # 200MHz Microchip DSC1123AE2-200.0000 LVDS differential output oscillator
 
@@ -148,9 +148,9 @@ IOBUF PORT  "vga_vsync"   IO_TYPE=LVCMOS33;
 # Button(s)
 # Pulled up to VCCIO6 (3.3V default).
 
-LOCATE COMP "button[1]" SITE "P4";
+LOCATE COMP "button_n" SITE "P4";
 
-IOBUF PORT  "button[1]" IO_TYPE=LVCMOS33;
+IOBUF PORT  "button_n" IO_TYPE=LVCMOS33 PULLMODE=NONE;
 
 # LEDs
 # Pulled up to VCCIO1 (2.5V default).

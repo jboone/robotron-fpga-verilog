@@ -80,7 +80,7 @@ integer count;
 always @* begin
 	case(rs)
 	2'b00: begin
-		for(count=0; count<8; count++) begin
+		for(count=0; count<8; count=count+1) begin
 			data_out[count] = porta_ctrl[2] ? (porta_ddr[count] ? porta_data[count] : pa_i[count]) : porta_ddr[count];
 		end
 		porta_read = porta_ctrl[2] ? cs : 1'b0;
@@ -94,7 +94,7 @@ always @* begin
 	end
 
 	2'b10: begin
-		for(count=0; count<8; count++) begin
+		for(count=0; count<8; count=count+1) begin
 			data_out[count] = portb_ctrl[2] ? (portb_ddr[count] ? portb_data[count] : pb_i[count]) : portb_ddr[count];
 		end
 		portb_read = portb_ctrl[2] ? cs : 1'b0;

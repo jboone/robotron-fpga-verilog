@@ -34,7 +34,10 @@ build/decoder_6.hex: sw/mkdecoder.py data/rom/decoder.6
 	sw/mkdecoder.py data/rom/decoder.6 > $@
 
 build/rom.hex: sw/mkrom.py data/rom/robotron.sb?
-	sw/mkrom.py data/rom/ build/rom.bin build/rom.hex
+	sw/mkrom.py --block-size 4096 --word-width 16 --output-binary build/rom.bin --output-verilog build/rom.hex data/rom/robotron.sb[1-9] none none none none data/rom/robotron.sb[a-c]
+
+build/rom_snd.hex: sw/mkrom.py data/rom/robotron.snd
+	sw/mkrom.py --block-size 4096 --word-width 8 --output-binary build/rom_snd.bin --output-verilog build/rom_snd.hex data/rom/robotron.snd
 
 #######################################################################
 

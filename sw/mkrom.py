@@ -4,46 +4,41 @@
 
 import sys
 import os.path
+import argparse
 
 import numpy
 
-width = 16
+parser = argparse.ArgumentParser()
+parser.add_argument('files', metavar='F', type=str, nargs='+', help='ROM binary image file')
+parser.add_argument('--block-size', type=int, required=True, help='Size of an individual ROM image')
+parser.add_argument('--word-width', type=int, required=True, choices=[8, 16], help='Bit-width of each line in output hex file')
+parser.add_argument('--output-binary', type=str, help='Output binary file')
+parser.add_argument('--output-verilog', type=str, help='Output hex file for use in Verilog')
+args = parser.parse_args()
 
-files = (
-	'robotron.sb1',
-	'robotron.sb2',
-	'robotron.sb3',
-	'robotron.sb4',
-	'robotron.sb5',
-	'robotron.sb6',
-	'robotron.sb7',
-	'robotron.sb8',
-	'robotron.sb9',
-	None,
-	None,
-	None,
-	None,
-	'robotron.sba',
-	'robotron.sbb',
-	'robotron.sbc',
-)
+width = args.word_width
+
+files = args.files
 
 data = []
 for file in files:
-	if file is None:
-		data.append(numpy.zeros((4096,), dtype=numpy.uint8))
+	if file.lower() == 'none':
+		data.append(numpy.zeros((args.block_size,), dtype=numpy.uint8))
 	else:
-		path = os.path.join(sys.argv[1], file)
-		data.append(numpy.fromfile(path, dtype=numpy.uint8))
+		block_data = numpy.fromfile(file, dtype=numpy.uint8)
+		assert(len(block_data) == args.block_size)
+		data.append(block_data)
 
 data = numpy.concatenate(data)
-data.tofile(sys.argv[2])
+if args.output_binary:
+	data.tofile(args.output_binary)
 
-if width == 16:
-	data = numpy.reshape(data, (len(data) // 2, 2))
-	s = ''.join(['%02x%02x\n' % (l, h) for h, l in data])
-elif width == 8:
-	s = ''.join(['%02x\n' % v for v in data])
+if args.output_verilog:
+	if width == 16:
+		data = numpy.reshape(data, (len(data) // 2, 2))
+		s = ''.join(['%02x%02x\n' % (l, h) for h, l in data])
+	elif width == 8:
+		s = ''.join(['%02x\n' % v for v in data])
 
-with open(sys.argv[3], 'w') as f:
-	f.write(s)
+	with open(args.output_verilog, 'w') as f:
+		f.write(s)

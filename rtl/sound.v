@@ -7,6 +7,7 @@
 module sound(
 	input  wire        rst,
 	input  wire        clk_4e,
+	input  wire        diagnostic,
 	
 	output wire [ 5:0] pb,
 	output wire        hand,
@@ -46,9 +47,9 @@ wire [ 7:0] CPU_DATA_OUT;
 wire        CPU_RW;
 wire        CPU_IRQ;
 wire        CPU_VMA;
-wire        CPU_HALT;
-wire        CPU_HOLD;
-wire        CPU_NMI;
+wire        CPU_HALT = 1'b0;
+wire        CPU_HOLD = 1'b0;
+wire        CPU_NMI = diagnostic;
 
 wire        ROM_CS;
 wire [ 7:0] ROM_DATA_OUT;
@@ -78,17 +79,10 @@ wire [ 7:0] PIA_PB_O;
 wire [ 3:0] BCD_DEMUX_INPUT;
 wire [ 9:0] BCD_DEMUX_OUTPUT;
 
-wire        SPEECH_CLOCK;
-wire        SPEECH_DATA;
+wire        SPEECH_CLOCK = 1'b0;
+wire        SPEECH_DATA = 1'b0;
 
 ///////////////////////////////////////////////////////////////////////
-
-assign CPU_HALT = 1'b0;
-assign CPU_HOLD = 1'b0;
-assign CPU_NMI = 1'b0;
-
-assign SPEECH_CLOCK = 1'b0;
-assign SPEECH_DATA = 1'b0;
 
 cpu68 mpu(
 	.clk(clk_cpu),

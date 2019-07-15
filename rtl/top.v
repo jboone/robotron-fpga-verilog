@@ -398,6 +398,7 @@ wire [ 7:0] sound_dac_value;
 sound sound(
 	.rst(!ready),
 	.clk_4e(sound_mpu_clk_4e),
+	.diagnostic(1'b0),
 	.pb(sound_pb),
 	.hand(sound_hand),
 	.dac_en(sound_dac_en),

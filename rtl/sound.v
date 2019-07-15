@@ -9,8 +9,8 @@ module sound(
 	input  wire        clk_4e,
 	input  wire        diagnostic,
 	
-	output wire [ 5:0] pb,
-	output wire        hand,
+	input  wire [ 5:0] pb,
+	input  wire        hand,
 	
 	output wire        dac_en,
 	output wire [ 7:0] dac_value

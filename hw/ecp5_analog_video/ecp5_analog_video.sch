@@ -2249,4 +2249,6 @@ Text Label 1400 4000 0    50   ~ 0
 ENC_TVDET
 Wire Wire Line
 	1300 4000 2200 4000
+Text Notes 1400 8600 0    100  ~ 0
+ECP5 GPIO comes up hi-Z with weak pull-down.\nPull down sinks 30 to 150 uA.
 $EndSCHEMATC

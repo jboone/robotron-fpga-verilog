@@ -2,6 +2,10 @@
 
 TRELLIS=~/sft/share/trellis
 
+PROJ_VHDL_SRCS := $(addprefix rtl/, \
+	cpu68.vhd \
+)
+
 PROJ_RTL_SRCS := $(addprefix rtl/, \
 	address_decode_mpu.v \
 	clock_generator.v \
@@ -50,7 +54,7 @@ build/rom_snd.hex: sw/mkrom.py data/rom/robotron.snd
 #######################################################################
 
 build/robotron.json: ${PROJ_RTL_SRCS} build/cmos.hex build/decoder_4.hex build/decoder_6.hex build/rom.hex build/rom_snd.hex
-	yosys -D ECP5 -p "synth_ecp5 -top top -json $@" ${PROJ_RTL_SRCS}
+	yosys -m ghdl -D ECP5 -p "ghdl -fsynopsys -fexplicit ${PROJ_VHDL_SRCS} -e cpu68; synth_ecp5 -top top -json $@" ${PROJ_RTL_SRCS}
 
 build/robotron_out.config: build/robotron.json data/pre-pack.py
 	nextpnr-ecp5 --json $< --textcfg $@ --um5g-85k --package CABGA381 --lpf data/ecp5evn.lpf --pre-pack data/pre-pack.py

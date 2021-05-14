@@ -35,6 +35,10 @@ This project is under active and urgent development.
 	to build the toolchain from scratch, as ECP5 support is very new and is improving
 	rapidly.
 
+* [GHDL](https://github.com/ghdl/ghdl) and [GHDL-Yosys Plugin](https://github.com/ghdl/ghdl-yosys-plugin):
+
+    These are required to build the CPU68 6800/6801 VHDL core, which is the processor in the sound board.
+
 ## Reference Material
 [reference]: #reference
 

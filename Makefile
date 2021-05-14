@@ -1,6 +1,8 @@
 # Copyright 2019 Jared Boone <jared@sharebrained.com>. Open-source license to be determined.
 
-TRELLIS=~/sft/share/trellis
+# TODO: Set TRELLIS to point to where your `prjtrellis` installation lives.
+# On my system, it's installed to `/usr/local/share/trellis`.
+TRELLIS=/usr/local/share/trellis
 
 PROJ_VHDL_SRCS := $(addprefix rtl/, \
 	cpu68.vhd \

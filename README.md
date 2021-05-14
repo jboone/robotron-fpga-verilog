@@ -1,7 +1,6 @@
 # Robotron FPGA (Verilog)
 
-Classic 1980s arcade video game implemented in an FPGA using Verilog, using
-some [custom video](hw/ecp5_analog_video), [sound](hw/ecp5_dac8), and controls interfacing hardware.
+Classic 1980s arcade video game implemented in an FPGA using Verilog, using some [custom video](hw/ecp5_analog_video), [sound](hw/ecp5_dac8), and controls interfacing hardware.
 
 ## Status
 
@@ -38,6 +37,13 @@ ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6010", MODE="0660", GROUP="plugdev",
 # Then ask udev to re-read the rules.
 $ sudo udevadm control --reload-rules && sudo udevadm trigger
 # (Detach and) attach the development board USB cable.
+```
+
+With the project requirements installed on your computer, and the development board plugged into your computer, you should only need to do the following to start the game running:
+
+```bash
+$ cd robotron-fpga-verilog
+$ make prog
 ```
 
 ## Project Hardware
@@ -83,28 +89,52 @@ Before connecting any of the hardware in this project, please ensure the Lattice
 | CONFIG 1 | OFF      |
 | CONFIG 2 | ON       |
 
+## Interfacing
+
+### Game Controls
+
+The mapping of FPGA pins on the evaluation board can be found in [ecp5evn.lpf](data/ecp5evn.lpf). All signals are active low (0 volts) with the FPGA providing weak pull-ups.
+
+| Game Signal       | Evaluation Board Signal | FPGA Ball |
+| ----------------- | ----------------------- | --------- |
+| Move Up           | Header J5, pin 3        | H20       |
+| Move Down         | Header J5, pin 11       | K19       |
+| Move Left         | Header J5, pin 15       | K20       |
+| Move Right        | Header J5, pin 7        | K18       |
+| Fire Up           | Header J5, pin 4        | G19       |
+| Fire Down         | Header J5, pin 12       | J19       |
+| Fire Left         | Header J5, pin 16       | J20       |
+| Fire Right        | Header J5, pin 8        | J18       |
+| Player Start 1-Up | Header J5, pin 19       | G20       |
+| Left Coin Detect  | Push button SW4         | P4        |
+
+Other game signals are set to constant values inside [top.v](rtl/top.v). If you need them, you'll need to do some alteration of the Verilog and .lpf files.
+
+To start a game, you first need to add one or more coins (press push button SW4), then press the player start 1-up button (pulling header J4 pin 19 to ground). And off you go!
+
+### Raspberry Pi Event Reporting
+
+The Lattice ECP5 development board has a [Raspberry Pi](https://www.raspberrypi.org/) [GPIO header](https://www.raspberrypi.org/documentation/usage/gpio/README.md) on it, which we use to send game events to the Raspberry Pi serial port "RX" (GPIO15) signal on header pin 10. The baud rate is approximately 115,200 baud (12 MHz / 104) as determined in [uart_tx.v](rtl/uart_tx.v), and uses eight data bits, one start bit, one stop bit, and no parity. The events are transmitted by [events.v](rtl/events.v), but are detected and captured within [cpu.v](rtl/cpu.v). Have a look at the [simple Python event decoder example](sw/serial-decoder.py) for more details.
+
+## Future Plans
+
+I've gotten hooked on writing my FPGA project hardware descriptions in [nMigen](https://github.com/nmigen/nmigen), so would like to reimplement some or all of the project using nMigen. It should become significantly more concise and less fragile to work with than Verilog code.
+
 ## Reference Material
 
 These documents served me well during development of this project.
 
-* [Sean Riddle](http://seanriddle.com/) - Williams arcade machine information,
-  including Robotron: 2084.
-
+* [Sean Riddle](http://seanriddle.com/) - Williams arcade machine information, including Robotron: 2084.
     * [Hardware overview](http://seanriddle.com/willhard.html)
     * [Memory map](http://seanriddle.com/memmap.gif)
     * [Processor and video timing](http://seanriddle.com/timing.html)
     * [BLTter description and test code](http://seanriddle.com/blittest.html)
-
-* [Robotron-2084](http://www.robotron-2084.co.uk/) - Williams arcade machine
-official documentation.
-
+* [Robotron-2084](http://www.robotron-2084.co.uk/) - Williams arcade machine official documentation.
     * [Robotron schematics and instruction manuals](http://www.robotron-2084.co.uk/manualsrobotron.html)
     * [Defender "later series" theory of operation](http://www.robotron-2084.co.uk/manualsdefender.html),
       interesting because the Robotron and Defender hardware is quite
       similar.
-
 * Documentation for various ICs in the original Robotron: 2084 machine.
-
     * [MC6809E microprocessor datasheet](http://www.classiccmp.org/dunfield/r/6809e.pdf)
     * [MC6809E microprocessor programming manual](http://www.classiccmp.org/dunfield/r/6809prog.pdf)
     * [DM9316 Synchronous 4-Bit Binary Counter](http://www.ti.com/product/dm9316)
@@ -124,8 +154,7 @@ The open-source license for this project is yet to be determined. Stay tuned.
 
 Contributions are welcome!
 
-Please respect Williams Electronics' copyright and do not post any files built
-with or containing their ROM code.
+Please respect Williams Electronics' copyright and do not post any files built with or containing their ROM code.
 
 ## Contact
 

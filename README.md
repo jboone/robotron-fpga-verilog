@@ -42,7 +42,17 @@ $ sudo udevadm control --reload-rules && sudo udevadm trigger
 
 ## Project Hardware
 
-To use the [video DAC board](hw/ecp5_analog_video), the Lattice ECP5 development board needs a slight configuration change. The FPGA's VCCIO1 voltage supply changed from 2.5V to 3.3V, which involves removing resistor R100 and adding a 0 Ohm resistor as R105. Both resistors are located next to each other, in the very center of the bottom of the board. They appear to be "0603" resistors, which are thankfully manageable to solder for somebody experienced in surface-mount soldering, without fancy tools or a microscope.
+This project includes two custom circuit boards which attach to the Lattice ECP5 development board. Both were made with [KiCAD 5](https://www.kicad.org/). Both are four-layer boards. The bill of materials is contained within the schematic, and can be exported from there. If you're located in North America, consider using the [OSH Park](https://oshpark.com/) four-layer service to fabricate your boards.
+
+### [Analog Video Board](hw/ecp5_analog_video)
+
+The analog video board takes DAC, synchronization, and configuration signals from the ECP5 FPGA and outputs composite video, S-video (separate chroma and luma), and VGA-style RGB.
+
+To use the analog video board, the Lattice ECP5 development board needs a slight configuration change. The FPGA's VCCIO1 voltage supply changed from 2.5V to 3.3V, which involves removing resistor R100 and adding a 0 Ohm resistor as R105. Both resistors are located next to each other, in the very center of the bottom of the board. They appear to be "0603" resistors, which are thankfully manageable to solder for somebody experienced in surface-mount soldering, without fancy tools or a microscope.
+
+### [Analog Audio DAC Board](hw/ecp5_dac8)
+
+The analog audio DAC board takes audio sample data from the ECP5 FPGA and outputs an analog signal.
 
 ## Development Board Configuration
 

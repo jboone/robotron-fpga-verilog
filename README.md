@@ -39,6 +39,24 @@ This project is under active and urgent development.
 
     These are required to build the CPU68 6800/6801 VHDL core, which is the processor in the sound board.
 
+* [OpenOCD](http://openocd.org/):
+
+    Required to program the development board.
+
+## Notes
+
+To permit OpenOCD to access the ECP5 development board over USB, I had to create a `udev` rule:
+
+```bash
+$ sudo vi /etc/udev/rules.d/53-lattice-ftdi.rules
+# Add this to the file:
+ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6010", MODE="0660", GROUP="plugdev", TAG+="uaccess"
+# And save and quit the editor.
+# Then ask udev to re-read the rules.
+$ sudo udevadm control --reload-rules && sudo udevadm trigger
+# (Detach and) attach the development board.
+```
+
 ## Reference Material
 [reference]: #reference
 

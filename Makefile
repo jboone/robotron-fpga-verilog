@@ -6,8 +6,10 @@ PROJ_RTL_SRCS := $(addprefix rtl/, \
 	address_decode_mpu.v \
 	clock_generator.v \
 	cpu.v \
+	demux_7442.v \
 	events.v \
 	fifo_sync_ram.v \
+	m6810.v \
 	mc6809i.v \
 	mux_74154.v \
 	pia_6821.v \
@@ -18,6 +20,8 @@ PROJ_RTL_SRCS := $(addprefix rtl/, \
 	rom_64k_8.v \
 	rom_decoder_4.v \
 	rom_decoder_6.v \
+	rom_snd.v \
+	sound.v \
 	top.v \
 	uart_tx.v \
 	video_counter.v \
@@ -45,7 +49,7 @@ build/rom_snd.hex: sw/mkrom.py data/rom/robotron.snd
 
 #######################################################################
 
-build/robotron.json: ${PROJ_RTL_SRCS} build/cmos.hex build/decoder_4.hex build/decoder_6.hex build/rom.hex
+build/robotron.json: ${PROJ_RTL_SRCS} build/cmos.hex build/decoder_4.hex build/decoder_6.hex build/rom.hex build/rom_snd.hex
 	yosys -D ECP5 -p "synth_ecp5 -top top -json $@" ${PROJ_RTL_SRCS}
 
 build/robotron_out.config: build/robotron.json data/pre-pack.py
